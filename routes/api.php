@@ -16,4 +16,4 @@ Route::apiResource('repositories', RepositoryController::class)
     ->middleware('auth:api');
 
 Route::post('fetch', [GithubController::class, 'fetch'])
-    ->middleware(['auth:api']);
+    ->middleware(['auth:api','throttle:1,1']);

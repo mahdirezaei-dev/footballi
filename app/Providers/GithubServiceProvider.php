@@ -13,7 +13,7 @@ class GithubServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind('GitHub', function () {
-            return new \App\Services\GitHub;
+            return new \App\Modules\GitHub;
         });
     }
 

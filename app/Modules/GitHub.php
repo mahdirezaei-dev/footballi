@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Modules;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Collection;

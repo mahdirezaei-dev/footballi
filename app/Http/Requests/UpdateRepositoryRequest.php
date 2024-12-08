@@ -7,8 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * This class handles the validation and authorization of the update repository request.
  * It is used to ensure that the input data for updating a repository is valid and the user is authorized to perform this action.
- *
- * @package App\Http\Requests
  */
 class UpdateRepositoryRequest extends FormRequest
 {
@@ -35,7 +33,7 @@ class UpdateRepositoryRequest extends FormRequest
     {
         return [
             'tags' => 'required|array',
-            'tags.*' => 'string'
+            'tags.*' => 'string',
         ];
     }
 }

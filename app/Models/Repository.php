@@ -17,7 +17,7 @@ class Repository extends Model
         'name',
         'description',
         'url',
-        'language'
+        'language',
     ];
 
     public $timestamps = false;

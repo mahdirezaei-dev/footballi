@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Dedoc\Scramble\Scramble;
 use Illuminate\Routing\Route;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class ScrambleServiceProvider extends ServiceProvider
 {

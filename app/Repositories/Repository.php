@@ -7,8 +7,8 @@ namespace App\Repositories;
 use App\Contracts\RepositoryContract;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class Repository implements RepositoryContract
 {
@@ -32,7 +32,7 @@ abstract class Repository implements RepositoryContract
 
         if (! $model instanceof Model) {
             throw new \Exception(
-                message: "Class {$this->model()} must be an instance of " . Model::class
+                message: "Class {$this->model()} must be an instance of ".Model::class
             );
         }
 
@@ -75,7 +75,7 @@ abstract class Repository implements RepositoryContract
     public function create(array $attributes): Model
     {
         return $this->database->transaction(
-            callback: fn() => $this->query->create(
+            callback: fn () => $this->query->create(
                 attributes: $attributes
             ),
             attempts: 3
@@ -90,7 +90,7 @@ abstract class Repository implements RepositoryContract
     public function update(int $id, array $attributes, array $options = []): void
     {
         $this->database->transaction(
-            callback: fn() => $this->getById($id)->update(
+            callback: fn () => $this->getById($id)->update(
                 attributes: $attributes,
                 options: $options
             ),

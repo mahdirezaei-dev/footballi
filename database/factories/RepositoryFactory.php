@@ -28,8 +28,8 @@ class RepositoryFactory extends Factory
                 'Python',
                 'Ruby',
                 'Java',
-                'C#'
-            ])
+                'C#',
+            ]),
         ];
     }
 }

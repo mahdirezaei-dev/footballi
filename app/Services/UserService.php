@@ -16,7 +16,7 @@ class UserService
 
         $user = $this->userRepository->create($data);
 
-        if (!$user) {
+        if (! $user) {
             throw new \Exception('Failed to create user.');
         }
 

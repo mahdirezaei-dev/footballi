@@ -50,13 +50,13 @@ class RepositoryControllerTest extends TestCase
                 'name' => $repository1->name,
                 'description' => $repository1->description,
                 'url' => $repository1->url,
-                'language' => $repository1->language
+                'language' => $repository1->language,
             ])->assertJsonFragment([
                 'id' => $repository2->id,
                 'name' => $repository2->name,
                 'description' => $repository2->description,
                 'url' => $repository2->url,
-                'language' => $repository2->language
+                'language' => $repository2->language,
             ])->assertJsonMissing([
                 'id' => $repository3->id,
             ]);

@@ -14,7 +14,6 @@ class RepositoryService
         $this->repositoryRepository = $repositoryRespository;
     }
 
-
     public function getUserRepositories($userId, $search = null): Collection
     {
         $repositories = $this->repositoryRepository->whereUser($userId)->with('tags');

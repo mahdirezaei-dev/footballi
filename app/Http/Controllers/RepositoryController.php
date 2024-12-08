@@ -8,8 +8,8 @@ use App\Http\Responses\RestResponse;
 use App\Models\Repository;
 use App\Models\Tag;
 use App\Services\RepositoryService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +21,7 @@ class RepositoryController extends Controller
 
     /**
      * index
-     * 
+     *
      * Return all repositories.
      *
      * @return JsonResponse
@@ -39,10 +39,10 @@ class RepositoryController extends Controller
 
     /**
      * Details
-     * 
+     *
      * Return the specified repository.
      *
-     * @param $repository sddsad
+     * @param  $repository  sddsad
      * @return JsonResponse
      */
     public function show(Repository $repository): JsonResource
@@ -52,12 +52,8 @@ class RepositoryController extends Controller
 
     /**
      * Update
-     * 
-     * Update tags for the specified repository in storage.
      *
-     * @param UpdateRepositoryRequest $request
-     * @param Repository $repository
-     * @return JsonResponse
+     * Update tags for the specified repository in storage.
      */
     public function update(UpdateRepositoryRequest $request, Repository $repository): JsonResponse
     {

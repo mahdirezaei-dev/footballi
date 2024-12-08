@@ -3,9 +3,9 @@
 namespace Tests\Unit;
 
 use App\Facades\Github;
-use Tests\TestCase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Tests\TestCase;
 
 class GithubServiceTest extends TestCase
 {
@@ -15,8 +15,8 @@ class GithubServiceTest extends TestCase
         Http::fake([
             'https://api.github.com/users/testuser/starred' => Http::response([
                 ['id' => 1, 'name' => 'Repo1'],
-                ['id' => 2, 'name' => 'Repo2']
-            ], 200)
+                ['id' => 2, 'name' => 'Repo2'],
+            ], 200),
         ]);
 
         // Configure the GitHub service with test data

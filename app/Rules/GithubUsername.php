@@ -15,7 +15,7 @@ class GithubUsername implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!Github::isUserOnGithub($value)) {
+        if (! Github::isUserOnGithub($value)) {
             $fail('The :attribute must be Github member.');
         }
     }

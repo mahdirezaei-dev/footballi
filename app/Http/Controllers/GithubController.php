@@ -8,10 +8,8 @@ use App\Models\Repository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-
 class GithubController
 {
-
     protected $user;
 
     public function __construct()
@@ -21,7 +19,7 @@ class GithubController
 
     /**
      * Sync
-     * 
+     *
      * Sync GitHub starred repositories with the local database.
      *
      * @return JsonResponse Returns a JSON response indicating that the repositories have been successfully synced.
@@ -42,7 +40,7 @@ class GithubController
                 ['name', 'description', 'url', 'language']
             );
 
-        return RestResponse::success(null, "Repositories synced with Github!", 201);
+        return RestResponse::success(null, 'Repositories synced with Github!', 201);
     }
 
     /**

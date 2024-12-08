@@ -17,7 +17,7 @@ class RepositoryCollection extends ResourceCollection
         return [
             'data' => $this->collection->transform(function ($repository) {
                 return new RepositoryResource($repository);
-            })
+            }),
         ];
     }
 }

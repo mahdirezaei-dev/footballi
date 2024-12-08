@@ -17,7 +17,7 @@ class TagCollection extends ResourceCollection
         return [
             'data' => $this->collection->transform(function ($tag) {
                 return new TagResource($tag);
-            })
+            }),
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-
 class RepositoryRepository extends Repository
 {
     public function model(): string

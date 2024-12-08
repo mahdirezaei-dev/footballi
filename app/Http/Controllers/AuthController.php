@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use App\Rules\GithubUsername;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -20,12 +18,8 @@ class AuthController extends Controller
 
     /**
      * Login
-     * 
+     *
      * Handle a login request to the application.
-     * 
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * 
      */
     public function login(Request $request): JsonResponse
     {
@@ -41,18 +35,14 @@ class AuthController extends Controller
 
     /**
      * Register
-     * 
+     *
      * Handle a registration request for the application.
-     * 
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * 
      */
     public function register(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'username' => ['required', 'string', 'max:255', 'unique:users', new GithubUsername()],
+            'username' => ['required', 'string', 'max:255', 'unique:users', new GithubUsername],
             'password' => 'required|string|min:6',
         ]);
 
@@ -63,9 +53,8 @@ class AuthController extends Controller
 
     /**
      * Format the token array structure.
-     * 
-     * @param string $token
-     * @return array
+     *
+     * @param  string  $token
      */
     protected function formatData($token): array
     {

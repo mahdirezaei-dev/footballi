@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\GitHub;
+use App\Facades\Github;
+use App\Http\Responses\RestResponse;
 use App\Models\Repository;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
 
 class GithubController
 {
+
     protected $user;
 
     public function __construct()
@@ -25,18 +26,23 @@ class GithubController
      *
      * @return JsonResponse Returns a JSON response indicating that the repositories have been successfully synced.
      */
-    public function fetch()
+    public function sync(): JsonResponse
     {
 
-        $repositories = GitHub::getStarredRepositories($this->user->username)->select(['id', 'name', 'description', 'url', 'language']);
+        $repositories = Github::getStarredRepositories($this->user->username)
+            ->select(['id', 'name', 'description', 'url', 'language']);
 
+        // TODO: foreach / try-catch , trasaction ...
         $this->deleteUnstarredRepositories($repositories);
 
-        $this->user->repositories()->upsert($repositories->toArray(), ['id', 'user_id'], ['name', 'description', 'url', 'language']);
+        $this->user->repositories()
+            ->upsert(
+                $repositories->toArray(),
+                ['id', 'user_id'],
+                ['name', 'description', 'url', 'language']
+            );
 
-        return response()->json([
-            'message' => 'Repositories synced successfully.'
-        ], 200);
+        return RestResponse::success(null, "Repositories synced with Github!", 201);
     }
 
     /**

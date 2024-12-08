@@ -12,8 +12,8 @@ class GithubServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('GitHub', function () {
-            return new \App\Modules\GitHub;
+        $this->app->bind('Github', function () {
+            return new \App\Modules\Github;
         });
     }
 
@@ -23,7 +23,7 @@ class GithubServiceProvider extends ServiceProvider
     public function boot(): void
     {
         AliasLoader::getInstance([
-            'GitHub' => \App\Facades\GitHub::class,
+            'Github' => \App\Facades\Github::class,
         ]);
     }
 }

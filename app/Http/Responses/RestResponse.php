@@ -4,25 +4,38 @@ namespace App\Http\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Throwable;
 
 class RestResponse implements Responsable
 {
-    protected int $httpCode;
-    protected array $data;
-    protected string $errorMessage;
+    private mixed $data;
+    private string $message;
+    private ?Throwable $exception;
+    private int $code;
+    private array $headers;
 
     /**
-     * Response constructor.
+     * RestResponse constructor.
      *
-     * @param int $httpCode
-     * @param array $data
-     * @param string $errorMessage
+     * @param mixed $data
+     * @param string $message
+     * @param int $code
+     * @param array $headers
+     * @param Throwable|null $exception
      */
-    public function __construct(int $httpCode, array $data = [], string $errorMessage = '')
-    {
-        $this->httpCode = $httpCode;
+    public function __construct(
+        mixed $data = null,
+        string $message = '',
+        int $code = Response::HTTP_OK,
+        array $headers = [],
+        ?Throwable $exception = null
+    ) {
         $this->data = $data;
-        $this->errorMessage = $errorMessage;
+        $this->message = $message;
+        $this->code = $code;
+        $this->headers = $headers;
+        $this->exception = $exception;
     }
 
     /**
@@ -33,17 +46,48 @@ class RestResponse implements Responsable
      */
     public function toResponse($request): JsonResponse
     {
-        $payload = match (true) {
-            $this->httpCode >= 500 => ['error_message' => 'Server error'],
-            $this->httpCode >= 400 => ['error_message' => $this->errorMessage],
-            $this->httpCode >= 200 => ['data' => $this->data],
-            default => ['error_message' => 'Unknown error'],
-        };
+        $response = [
+            'data' => $this->data,
+            'message' => $this->message
+        ];
 
-        return response()->json(
-            data: $payload,
-            status: $this->httpCode,
-            options: JSON_UNESCAPED_UNICODE
-        );
+        if (!is_null($this->exception) && config('app.debug')) {
+            $response['debug'] = [
+                'message' => $this->exception->getMessage(),
+                'file' => $this->exception->getFile(),
+                'line' => $this->exception->getLine(),
+                'trace' => $this->exception->getTraceAsString()
+            ];
+        }
+
+        return response()->json($response, $this->code, $this->headers);
+    }
+
+    /**
+     * Static method for creating a success response.
+     *
+     * @param mixed $data
+     * @param string $message
+     * @param int $code
+     * @param array $headers
+     * @return JsonResponse
+     */
+    public static function success(mixed $data, string $message = '', int $code = Response::HTTP_OK, array $headers = []): JsonResponse
+    {
+        return (new self($data, $message, $code, $headers))->toResponse(request());
+    }
+
+    /**
+     * Static method for creating an error response.
+     *
+     * @param string $message
+     * @param int $code
+     * @param array $headers
+     * @param Throwable|null $exception
+     * @return JsonResponse
+     */
+    public static function error(string $message, int $code = Response::HTTP_INTERNAL_SERVER_ERROR, array $headers = [], ?Throwable $exception = null): JsonResponse
+    {
+        return (new self(null, $message, $code, $headers, $exception))->toResponse(request());
     }
 }

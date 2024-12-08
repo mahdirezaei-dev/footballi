@@ -4,10 +4,10 @@ namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class GitHub extends Facade
+class Github extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'GitHub';
+        return 'Github';
     }
 }

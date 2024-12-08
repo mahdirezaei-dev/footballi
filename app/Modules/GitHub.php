@@ -7,25 +7,25 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Class GitHub
+ * Class Github
  *
- * This class provides methods to interact with GitHub API, specifically to fetch the starred repositories of a user.
+ * This class provides methods to interact with Github API, specifically to fetch the starred repositories of a user.
  */
-class GitHub
+class Github
 {
-    /** The base URL for GitHub API */
+    /** The base URL for Github API */
     protected string $baseUrl;
 
-    /** The GitHub API token */
+    /** The Github API token */
     protected string $token;
 
-    /** The HTTP client used to send requests to the GitHub API */
+    /** The HTTP client used to send requests to the Github API */
     protected PendingRequest $httpClient;
 
     /**
-     * GitHub constructor.
+     * Github constructor.
      *
-     * Initializes the GitHub API service with the necessary configuration.
+     * Initializes the Github API service with the necessary configuration.
      */
     public function __construct()
     {
@@ -35,17 +35,40 @@ class GitHub
     }
 
     /**
-     * Get starred repositories of the user.
+     * Get the list of repositories starred by a given GitHub user.
      *
-     * Fetches the starred repositories for the configured user from GitHub.
-     * 
-     * @param string $username The GitHub username for which to fetch the starred repositories.
-     * @return \Illuminate\Support\Collection A collection of starred repositories.
+     * @param string $username The GitHub username to get the starred repositories for.
+     * @return \Illuminate\Support\Collection The collection of starred repositories.
      */
     public function getStarredRepositories(string $username): Collection
     {
         $response = $this->httpClient->get($this->baseUrl . "users/{$username}/starred");
-
         return collect($response->successful() ? $response->json() : []);
+    }
+
+
+    /**
+     * Get the details of a GitHub user by username.
+     *
+     * @param string $username The GitHub username to get details for.
+     * @return \Illuminate\Support\Collection The collection containing user details.
+     */
+    public function getUser(string $username): Collection
+    {
+        $response = $this->httpClient->get($this->baseUrl . "users/{$username}");
+        return collect($response->successful() ? $response->json() : []);
+    }
+
+
+    /**
+     * Check if a given GitHub user exists.
+     *
+     * @param string $username The GitHub username to check.
+     * @return bool True if the user exists, false otherwise.
+     */
+    public function isUserOnGithub(string $username): bool
+    {
+        $response = $this->httpClient->get($this->baseUrl . "users/{$username}");
+        return $response->successful() ? true : false;
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Facades\GitHub;
+use App\Facades\Github;
 use Tests\TestCase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class GitHubServiceTest extends TestCase
+class GithubServiceTest extends TestCase
 {
     public function test_gets_starred_repositories()
     {
@@ -23,7 +23,7 @@ class GitHubServiceTest extends TestCase
         config(['github.api_token' => 'test_token']);
 
         // Create an instance of the GitHub service
-        $repositories = GitHub::getStarredRepositories('testuser');
+        $repositories = Github::getStarredRepositories('testuser');
 
         // Assert that the result is a Laravel collection
         $this->assertInstanceOf(Collection::class, $repositories);

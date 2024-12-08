@@ -14,8 +14,10 @@ class TagCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return ['data' => $this->collection->transform(function ($tag) {
-            return new TagResource($tag);
-        })];
+        return [
+            'data' => $this->collection->transform(function ($tag) {
+                return new TagResource($tag);
+            })
+        ];
     }
 }

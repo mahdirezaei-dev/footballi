@@ -14,8 +14,10 @@ class RepositoryCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return ['data' => $this->collection->transform(function ($repository) {
-            return new RepositoryResource($repository);
-        })];
+        return [
+            'data' => $this->collection->transform(function ($repository) {
+                return new RepositoryResource($repository);
+            })
+        ];
     }
 }

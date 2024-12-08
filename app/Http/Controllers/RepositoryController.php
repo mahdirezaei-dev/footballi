@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateRepositoryRequest;
 use App\Http\Resources\RepositoryResource;
+use App\Http\Responses\RestResponse;
 use App\Models\Repository;
 use App\Models\Tag;
+use App\Services\RepositoryService;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
 class RepositoryController extends Controller
 {
+    public function __construct(
+        public RepositoryService $repositoryService,
+    ) {}
+
     /**
      * index
      * 
@@ -21,20 +26,16 @@ class RepositoryController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResource
+    public function index(Request $request)
     {
-        $repositories = Auth::user()->repositories()->with('tags');
+        $query = $request->filled('q') ? $request->q : null;
 
-        if ($request->filled('q')) {
-            $repositories->whereHas('tags', function ($q) use ($request) {
-                $q->where('name', 'like', "%{$request->q}%");
-            });
-        }
+        $repositories = $this->repositoryService->getUserRepositories(Auth::id(), $query);
 
-        return RepositoryResource::collection($repositories->get());
+        $data = RepositoryResource::collection($repositories);
+
+        return RestResponse::success(data: $data, code: 200);
     }
-
-
 
     /**
      * Details

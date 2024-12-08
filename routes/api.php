@@ -15,5 +15,5 @@ Route::apiResource('repositories', RepositoryController::class)
     ->except(['destroy', 'store'])
     ->middleware('auth:api');
 
-Route::post('fetch', [GithubController::class, 'fetch'])
-    ->middleware(['auth:api','throttle:1,1']);
+Route::post('sync', [GithubController::class, 'sync'])
+    ->middleware(['auth:api', 'throttle:1,1']);

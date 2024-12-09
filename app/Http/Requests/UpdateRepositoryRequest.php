@@ -32,7 +32,7 @@ class UpdateRepositoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tags' => 'required|array',
+            'tags' => ['required', 'array'],
             'tags.*' => 'string',
         ];
     }

@@ -40,10 +40,9 @@ class Github
      * @param  string  $username  The GitHub username to get the starred repositories for.
      * @return \Illuminate\Support\Collection The collection of starred repositories.
      */
-    public function getStarredRepositories(string $username): Collection
+    public function getStarredRepositories(string $username,): Collection
     {
-        $response = $this->httpClient->get($this->baseUrl."users/{$username}/starred");
-
+        $response = $this->httpClient->get($this->baseUrl . "users/{$username}/starred");
         return collect($response->successful() ? $response->json() : []);
     }
 
@@ -55,7 +54,7 @@ class Github
      */
     public function getUser(string $username): Collection
     {
-        $response = $this->httpClient->get($this->baseUrl."users/{$username}");
+        $response = $this->httpClient->get($this->baseUrl . "users/{$username}");
 
         return collect($response->successful() ? $response->json() : []);
     }
@@ -68,8 +67,8 @@ class Github
      */
     public function isUserOnGithub(string $username): bool
     {
-        $response = $this->httpClient->get($this->baseUrl."users/{$username}");
+        $response = $this->httpClient->get($this->baseUrl . "users/{$username}");
 
-        return $response->successful() ? true : false;
+        return $response->successful();
     }
 }

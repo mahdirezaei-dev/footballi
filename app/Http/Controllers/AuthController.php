@@ -59,8 +59,13 @@ class AuthController extends Controller
     protected function formatData($token): array
     {
         return [
+            // 'access_token': The generated access token, which is a JWT (JSON Web Token) used for authenticating the user
             'access_token' => $token,
+
+            // 'token_type': The type of token. Here, 'bearer' indicates the use of Bearer Token protocol for authentication
             'token_type' => 'bearer',
+
+            // 'expires_in': The duration (in seconds) that the access token is valid. This value is calculated by multiplying the TTL (Time To Live) by 60
             'expires_in' => Auth::factory()->getTTL() * 60,
         ];
     }

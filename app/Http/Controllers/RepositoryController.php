@@ -8,6 +8,7 @@ use App\Http\Responses\RestResponse;
 use App\Models\Repository;
 use App\Models\Tag;
 use App\Services\RepositoryService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,18 +24,26 @@ class RepositoryController extends Controller
      * index
      *
      * Return all repositories.
-     *
+     * 
+     * Example:
+     * 
+     * GET /api/repositories?q=tag_name
+     * 
+     * This will return repositories that have the tag `tag_name`.
+     * 
      * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResource
     {
+        $request->validate([
+            'q' => ['nullable', 'string'],
+        ]);
+
         $query = $request->filled('q') ? $request->q : null;
 
         $repositories = $this->repositoryService->getUserRepositories(Auth::id(), $query);
 
-        $data = RepositoryResource::collection($repositories);
-
-        return RestResponse::success(data: $data, code: 200);
+        return RepositoryResource::collection($repositories);
     }
 
     /**
